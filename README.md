@@ -1,4 +1,4 @@
-# 🤖 Automatic Interview Scheduler — Smart Slot Booking System
+# 🤖 Automatic Interview Scheduler.
 
 A production-ready Interview Scheduling Application built using **Java Spring Boot**, **Next.js (React)**, and **MySQL** that enables candidates to select from a list of interview slots while allowing interviewers to manage availability efficiently.
 
