@@ -119,6 +119,21 @@ Tables Used:
 
 ➡ Schema supports future enhancements like feedback & job-role mapping.
 
+.
+
+🔄 UI Interaction → Database Operations Mapping
+UI Step	Screen / User Action	Table Impact (Insert / Update)
+1️⃣ Admin logs in and creates Interviewer/Candidate accounts	Admin → Add User	New rows added in Interviewer / Candidate tables
+2️⃣ Interviewer logs in using same credentials	Interviewer Login Page	System reads from Interviewer table (No DB change)
+3️⃣ Interviewer sets availability (select Date + Time range)	Interviewer → Set Availability	Insert a new row into Availability table
+4️⃣ System auto-generates interview slots based on availability	Auto backend process	Insert multiple rows into Slot table (status → AVAILABLE)
+5️⃣ Candidate logs in to view all open time slots	Candidate Login → View Slots	Select from Slot where status = 'AVAILABLE' (Read Only)
+6️⃣ Candidate books one slot	Candidate → Book Slot	Insert into Booking + Update Slot status → BOOKED
+7️⃣ Slot now hidden from other candidates	Candidate Slot View refresh	System filters out slots not AVAILABLE (Read Only)
+8️⃣ Interviewer reviews scheduled interviews	Interviewer Dashboard	Join/select Slot + Booking + Candidate (Read Only)
+9️⃣ Interviewer marks an interview Completed / Cancelled	Booking status update action	Update Booking + Update Slot status
+🔟 Admin monitors everything	Admin Panel	Full database read access to all tables
+
 
 
 ## 📂 Project Structure
