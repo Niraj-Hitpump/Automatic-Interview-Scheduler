@@ -136,8 +136,7 @@ This database design supports coordinated scheduling across three stakeholders:
 
 ### 📘 ER Diagram
 
-📌 `./docs/er-diagram.png`  
-![ER Diagram](./docs/er-diagram.png)
+| 📘 ER Diagram | ![ER Diagram](https://github.com/Niraj-Hitpump/Automatic-Interview-Scheduler/blob/main/docs/er-diagram.png) |
 
 ---
 
