@@ -2,7 +2,7 @@
 
 A production-ready Interview Scheduling Application built using **Java Spring Boot**, **Next.js (React)**, and **MySQL** that automates end-to-end interview booking between candidates and interviewers.
 
-✔ Availability → ✔ Smart Slot Generation → ✔ Candidate Booking → ✔ Status Sync → ✔ Completion Tracking
+✔ Availability → ✔ Smart Slot Generation → ✔ Candidate Booking → ✔ Status Sync → ✔ Completion Tracking.
 
 > 🚀 Designed with clean APIs, race-condition-safe DB operations & scalable layered architecture.
 
