@@ -112,33 +112,106 @@ Develop a smart scheduling system using **Spring Boot + MySQL**, where:
 
 ---
 
-## 🗄️ Database Design — Automatic Interview Scheduler
+## 🗄️ Database Structure — Entity & Relationships
 
-This database design supports coordinated scheduling across three stakeholders:
-
-- **Admin** → Manages user access
-- **Interviewer** → Defines availability & updates status
-- **Candidate** → Books a single active slot
+The database ensures that interview scheduling, availability updates, and booking statuses remain synchronized across users.
 
 ---
 
-### 🧩 Table Overview
+### 🧑‍💼 Interviewer Table
 
-| Table | Description |
-|-------|-------------|
-| Interviewer | Credentials + profile for interviewers |
-| Availability | Interviewers' weekly availability entries |
-| Slot | Auto-generated bookable time intervals |
-| Candidate | Candidate login and user data |
-| Booking | Candidate-Slot mapping with booking status |
+| Column | Type | Description |
+|--------|------|-------------|
+| id (PK) | BIGINT | Unique interviewer ID |
+| name | VARCHAR | Interviewer’s full name |
+| email | VARCHAR | Login credential + communication |
+| password | VARCHAR | Encrypted login password |
+
+> ✔ One interviewer can create multiple availability slots.
+
+---
+
+### 👤 Candidate Table
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id (PK) | BIGINT | Unique candidate ID |
+| name | VARCHAR | Candidate’s full name |
+| email | VARCHAR | Login credential + communication |
+| password | VARCHAR | Encrypted login password |
+
+> ✔ One candidate may book exactly one slot at a time.
 
 ---
 
-### 📘 ER Diagram
+### 🗓️ Availability Table
 
-| 📘 ER Diagram | ![ER Diagram](https://github.com/Niraj-Hitpump/Automatic-Interview-Scheduler/blob/main/frontend/public/images/ER.png) |
+| Column | Type | Description |
+|--------|------|-------------|
+| id (PK) | BIGINT | Availability record ID |
+| interviewer_id (FK) | BIGINT → Interviewer | Who is available |
+| date | DATE | Day of availability |
+| total_slots | INT | Max no. of slots interviewer created |
+| remaining_slots | INT | Decreases when booking happens |
+
+> ✔ One availability generates multiple time slots.
 
 ---
+
+### ⏱️ Slot Table
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id (PK) | BIGINT | Unique time slot ID |
+| availability_id (FK) | BIGINT → Availability | Slots grouped per day |
+| start_time | TIME | Start time of interview |
+| end_time | TIME | End time of interview |
+| is_booked | BOOLEAN | Live slot booking status |
+
+> ✔ A slot can be booked only once.
+
+---
+
+### 📍 Booking Table
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id (PK) | BIGINT | Unique booking ID |
+| candidate_id (FK) | BIGINT → Candidate | Who booked |
+| slot_id (FK) | BIGINT → Slot | Which slot reserved |
+| status | ENUM('BOOKED', 'COMPLETED', 'CANCELLED') | Booking lifecycle |
+
+> ✔ When a booking is made, Availability + Slot both update automatically.
+
+---
+
+## 🔄 Data Flow — Auto Updates Between Tables
+
+| Action | Database Changes | System Effect |
+|--------|-----------------|---------------|
+| Interviewer sets availability | Insert into Availability & Slot | Slots appear to candidates |
+| Candidate books a slot | Insert Booking → Slot.is_booked = true | Availability.remaining_slots -1 |
+| Candidate cancels booking | Update Booking.status | Slot.is_booked = false → remaining_slots +1 |
+| Interview completed | Update Booking.status | Slot remains locked (history retained) |
+
+---
+
+## 🔗 Database Relationship Overview
+
+| Table | Relationship | Table |
+|-------|-------------|------|
+| Interviewer | 1 → Many | Availability |
+| Availability | 1 → Many | Slot |
+| Slot | 1 → 1 | Booking |
+| Candidate | 1 → 1 | Booking |
+
+---
+
+### ✔ Slot Booking Cascade (Quick Example)
+
+When Candidate books a slot:
+
+
 
 ## 🔄 UI Interaction → DB Operations Mapping
 
