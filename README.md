@@ -1,10 +1,10 @@
-# 🤖 Automatic Interview Scheduler.
+# 🤖 Automatic Interview Scheduler
 
-A production-ready Interview Scheduling Application built using **Java Spring Boot**, **Next.js (React)**, and **MySQL** that enables candidates to select from a list of interview slots while allowing interviewers to manage availability efficiently.
+A production-ready Interview Scheduling Application built using **Java Spring Boot**, **Next.js (React)**, and **MySQL** that automates end-to-end interview booking between candidates and interviewers.
 
-✔ Availability → ✔ Smart Slot Generation → ✔ Candidate Booking → ✔ Status Sync → ✔ Completion
+✔ Availability → ✔ Smart Slot Generation → ✔ Candidate Booking → ✔ Status Sync → ✔ Completion Tracking
 
-> 🚀 Designed with clean APIs, race-condition safe DB operations & structured architecture.
+> 🚀 Designed with clean APIs, race-condition-safe DB operations & scalable layered architecture.
 
 ---
 
@@ -13,34 +13,34 @@ A production-ready Interview Scheduling Application built using **Java Spring Bo
 **Title:** Automatic Interview Scheduling  
 
 **Description:**  
-Develop a system using **Java Spring Boot + MySQL**, where:
+Develop a smart scheduling system using **Spring Boot + MySQL**, where:
 
-- Interviewer provides **weekly availability**
+- Interviewers provide **weekly availability**
 - System generates interview slots for **next 2 weeks**
 - Candidates can **select & confirm only one active slot**
 - Interviewers define **maximum interviews per week**
 - Multiple bookings allowed within weekly limit
-- Slots can be **updated / cancelled** with proper validations
+- Slots can be **updated / cancelled** with validations
+- End-to-end workflow UI for both users
 
 ---
 
 ## 🎥 Demo Video  
-🔗 https://drive.google.com/file/d/1Eg5bC1FXqdyJtJebizI8C5degph4yAUt/view?usp=sharing
+📍 Watch Here → https://drive.google.com/file/d/1Eg5bC1FXqdyJtJebizI8C5degph4yAUt/view?usp=sharing
 
 ---
 
-## 🧠 System Flow (Requirement Alignment)
+## 🧠 System Flow — Requirement Alignment
 
-> **Flow:**  
-1️⃣ Interviewer adds weekly availability  
+> **Workflow:**  
+1️⃣ Interviewer sets weekly availability  
 2️⃣ System auto-generates slots for the next two weeks  
-3️⃣ Candidate selects **a single slot**  
-4️⃣ Slot confirmation shown & stored  
-5️⃣ Interviewer can **update status** (Booked → Completed / Cancelled)
+3️⃣ Candidate selects **a single active slot**  
+4️⃣ Slot confirmation stored + reflected for both  
+5️⃣ Interviewer can **update interview status**  
+  (BOOKED → COMPLETED / CANCELLED)
 
-🔐 Strong DB checks prevent double bookings.
-
----
+🔐 Strong database validations prevent **double-booking**
 
 ---
 
@@ -59,29 +59,29 @@ Develop a system using **Java Spring Boot + MySQL**, where:
 
 ---
 
-## ✨ Key Features (Mapped to Evaluation Criteria)
+## ✨ Key Features (Evaluation Criteria Mapping)
 
 | Requirement | Status |
 |-----------|:-----:|
-| Proper API naming & flows | ✔ Implemented |
-| DB Schema + constraints | ✔ MySQL with FK + Unique booking |
-| Race condition handling | ✔ DB-level validations + transactions |
-| Design Patterns | ✔ Service Layer + DTO + Mapper patterns |
-| Error handling | ✔ Global Exception Handler |
-| UI to demonstrate workflow | ✔ Candidate & Interviewer dashboards |
+| Proper API naming & flows | ✔ |
+| DB Schema + Constraints | ✔ |
+| Race-condition handling | ✔ |
+| Service + DTO + Mapper pattern | ✔ |
+| Exception handling | ✔ |
+| UI workflows for entire lifecycle | ✔ |
 
 ---
 
-## ⭐ Bonus Points Completed
+## ⭐ Bonus Features Implemented
 
 | Bonus | Status |
 |-------|:-----:|
-| Basic UI Built | ✔ |
-| Pagination for Slot Listing | ✔ Limit/Offset |
-| Trade-off Discussions in Doc | ✔ |
-| Clean Architecture Principles | ✔ Layered Architecture |
-| Debouncing | ✔ On search/select input |
-| JUNIT Test Cases | ➖ *(Planned)* |
+| Clean UI with dashboard | ✔ |
+| Pagination (Slot Listing) | ✔ |
+| Trade-off documentation | ✔ |
+| Layered architecture principles | ✔ |
+| Debouncing (Search/Select Inputs) | ✔ |
+| JUnit Test Cases | 🟡 *(Planned)* |
 
 ---
 
@@ -92,82 +92,98 @@ Develop a system using **Java Spring Boot + MySQL**, where:
 | Frontend | Next.js (React), Tailwind CSS |
 | Backend | Java Spring Boot |
 | Database | MySQL |
-| Authentication | JWT Tokens |
+| Authentication | JWT |
 | Build Tools | Maven, Node.js |
 
 ---
 
 ## 🔐 API & Error-Handling Principles
 
-- Proper **REST conventions** & HTTP status codes
-- **Transactional** booking to avoid race conditions
-- **Validation checks** before booking:
-  - Slot exists
-  - Slot available
-  - Candidate has no active booking
-  - Weekly capacity not exceeded
+✔ REST conventions + structured request/response  
+✔ Database transactions for slot booking  
+✔ Mandatory validations:
+
+- Slot exists  
+- Slot still **AVAILABLE**
+- Candidate has **no active booking**
+- Interviewer **capacity not exceeded**
+
+📌 Ensures **no double booking** + consistent status sync.
 
 ---
 
-## 🗄️ Database Schema (Short Overview)
+## 🗄️ Database Design — Automatic Interview Scheduler
 
-Tables Used:
-- `users` (roles: admin, interviewer, candidate)
-- `availability` (weekly input by interviewer)
-- `slots` (generated for next 14 days)
-- `bookings` (candidate → slot mapping with status)
+This database design supports coordinated scheduling across three stakeholders:
 
-➡ Schema supports future enhancements like feedback & job-role mapping.
+- **Admin** → Manages user access
+- **Interviewer** → Defines availability & updates status
+- **Candidate** → Books a single active slot
 
-.
+---
 
-🔄 UI Interaction → Database Operations Mapping
-UI Step	Screen / User Action	Table Impact (Insert / Update)
-1️⃣ Admin logs in and creates Interviewer/Candidate accounts	Admin → Add User	New rows added in Interviewer / Candidate tables
-2️⃣ Interviewer logs in using same credentials	Interviewer Login Page	System reads from Interviewer table (No DB change)
-3️⃣ Interviewer sets availability (select Date + Time range)	Interviewer → Set Availability	Insert a new row into Availability table
-4️⃣ System auto-generates interview slots based on availability	Auto backend process	Insert multiple rows into Slot table (status → AVAILABLE)
-5️⃣ Candidate logs in to view all open time slots	Candidate Login → View Slots	Select from Slot where status = 'AVAILABLE' (Read Only)
-6️⃣ Candidate books one slot	Candidate → Book Slot	Insert into Booking + Update Slot status → BOOKED
-7️⃣ Slot now hidden from other candidates	Candidate Slot View refresh	System filters out slots not AVAILABLE (Read Only)
-8️⃣ Interviewer reviews scheduled interviews	Interviewer Dashboard	Join/select Slot + Booking + Candidate (Read Only)
-9️⃣ Interviewer marks an interview Completed / Cancelled	Booking status update action	Update Booking + Update Slot status
-🔟 Admin monitors everything	Admin Panel	Full database read access to all tables
+### 🧩 Table Overview
 
+| Table | Description |
+|-------|-------------|
+| Interviewer | Credentials + profile for interviewers |
+| Availability | Interviewers' weekly availability entries |
+| Slot | Auto-generated bookable time intervals |
+| Candidate | Candidate login and user data |
+| Booking | Candidate-Slot mapping with booking status |
 
+---
+
+### 📘 ER Diagram
+
+📌 `./docs/er-diagram.png`  
+![ER Diagram](./docs/er-diagram.png)
+
+---
+
+## 🔄 UI Interaction → DB Operations Mapping
+
+| Step | User Action | Table Impact |
+|------|-------------|--------------|
+| 1️⃣ | Admin creates accounts | Insert → Interviewer / Candidate |
+| 2️⃣ | Interviewer logs in | Read → Interviewer table |
+| 3️⃣ | Interviewer sets availability | Insert → Availability |
+| 4️⃣ | Auto slot generation | Insert multiple → Slot(status=AVAILABLE) |
+| 5️⃣ | Candidate views open slots | Read → Slot where status=AVAILABLE |
+| 6️⃣ | Candidate books slot | Insert → Booking + Update Slot(status=BOOKED) |
+| 7️⃣ | Slot hidden from others | Filter slot status |
+| 8️⃣ | Interviewer views bookings | Join → Slot + Booking + Candidate |
+| 9️⃣ | Status update | Update Booking + Slot |
+| 🔟 | Admin monitors system | Full Read access |
+
+---
 
 ## 📂 Project Structure
 
 ```bash
 InterviewScheduler/
-│── frontend/                       # Frontend application (likely React/Angular/Vue etc.)
+│── frontend/                       # Frontend application (Next.js)
 │
 └── interviewscheduler/             # Backend (Spring Boot)
-    │── .mvn/                       # Maven wrapper files
-    │── build/                      # Build related files
+    │── .mvn/
+    │── build/
     │── src/
     │   └── main/
     │       ├── java/
-    │       │   └── com/
-    │       │       └── interviewscheduler/
-    │       │           ├── config/        # Configuration classes (CORS, Security, etc.)
-    │       │           ├── controller/    # REST controllers & API endpoints
-    │       │           ├── dto/           # Data Transfer Objects
-    │       │           ├── model/         # Entity/Model classes mapped to DB
-    │       │           ├── repository/    # DAO layer - JpaRepository interfaces
-    │       │           └── service/       # Business logic layer
+    │       │   └── com/interviewscheduler/
+    │       │       ├── config/        # CORS, Security config
+    │       │       ├── controller/    # REST controllers
+    │       │       ├── dto/           # DTO classes
+    │       │       ├── model/         # JPA Entities
+    │       │       ├── repository/    # JpaRepository interfaces
+    │       │       └── service/       # Core business logic
     │       │
     │       └── resources/
-    │           ├── application.properties or application.yml
-    │           └── static/templates (if using)
+    │           ├── application.properties
+    │           └── static/templates
     │
-    │── test/                              # Unit & integration tests
-    │── target/                            # Compiled output folder
-    │── mvnw                               # Maven wrapper (Linux/Mac)
-    │── mvnw.cmd                           # Maven wrapper (Windows)
-    │── pom.xml                            # Dependencies & project config
-    │── HELP.md
-    │── README.md
-    │── .env                               # Environment variables
-    │── .gitignore                         # Git ignored files
-    │── .gitattributes                     # Git attributes settings
+    │── test/                          # Unit tests
+    │── mvnw / mvnw.cmd                # Maven wrapper
+    │── pom.xml                        # Dependencies
+    │── .env                           # Environment variables
+    │── .gitignore
