@@ -124,8 +124,35 @@ Tables Used:
 ## 📂 Project Structure
 
 ```bash
-Automatic-Interview-Scheduler/
+InterviewScheduler/
+│── frontend/                       # Frontend application (likely React/Angular/Vue etc.)
 │
-├── backend/          # Spring Boot APIs & Business Logic
-├── frontend/         # Next.js UI Views & Auth
-└── database/         # SQL schema & migration scripts
+└── interviewscheduler/             # Backend (Spring Boot)
+    │── .mvn/                       # Maven wrapper files
+    │── build/                      # Build related files
+    │── src/
+    │   └── main/
+    │       ├── java/
+    │       │   └── com/
+    │       │       └── interviewscheduler/
+    │       │           ├── config/        # Configuration classes (CORS, Security, etc.)
+    │       │           ├── controller/    # REST controllers & API endpoints
+    │       │           ├── dto/           # Data Transfer Objects
+    │       │           ├── model/         # Entity/Model classes mapped to DB
+    │       │           ├── repository/    # DAO layer - JpaRepository interfaces
+    │       │           └── service/       # Business logic layer
+    │       │
+    │       └── resources/
+    │           ├── application.properties or application.yml
+    │           └── static/templates (if using)
+    │
+    │── test/                              # Unit & integration tests
+    │── target/                            # Compiled output folder
+    │── mvnw                               # Maven wrapper (Linux/Mac)
+    │── mvnw.cmd                           # Maven wrapper (Windows)
+    │── pom.xml                            # Dependencies & project config
+    │── HELP.md
+    │── README.md
+    │── .env                               # Environment variables
+    │── .gitignore                         # Git ignored files
+    │── .gitattributes                     # Git attributes settings
